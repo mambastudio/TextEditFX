@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/jmburu/Documents/NetBeansProjects/TextEditFX/src/texteditfx/model/Document.java</file>
-            <file>file:/C:/Users/jmburu/Documents/NetBeansProjects/TextEditFX/src/texteditfx/TextEditFX.java</file>
-            <file>file:/C:/Users/jmburu/Documents/NetBeansProjects/TextEditFX/src/texteditfx/model/AbstractDocument.java</file>
+            <file>file:/C:/Users/jmburu/Documents/GitHub/TextEditFX/src/texteditfx/text/Position.java</file>
+            <file>file:/C:/Users/jmburu/Documents/GitHub/TextEditFX/src/texteditfx/model/AbstractDocument.java</file>
+            <file>file:/C:/Users/jmburu/Documents/GitHub/TextEditFX/src/texteditfx/element/Element.java</file>
+            <file>file:/C:/Users/jmburu/Documents/GitHub/TextEditFX/src/texteditfx/text/Segment.java</file>
+            <file>file:/C:/Users/jmburu/Documents/GitHub/TextEditFX/src/texteditfx/view/canvas/CPlainText.java</file>
+            <file>file:/C:/Users/jmburu/Documents/GitHub/TextEditFX/src/texteditfx/view/node/NPlainText.java</file>
+            <file>file:/C:/Users/jmburu/Documents/GitHub/TextEditFX/src/texteditfx/TextEditFX.java</file>
+            <file>file:/C:/Users/jmburu/Documents/GitHub/TextEditFX/src/texteditfx/attributes/AttributeSet.java</file>
+            <file>file:/C:/Users/jmburu/Documents/GitHub/TextEditFX/src/texteditfx/model/Document.java</file>
+            <file>file:/C:/Users/jmburu/Documents/GitHub/TextEditFX/src/texteditfx/model/PlainDocument.java</file>
         </group>
     </open-files>
 </project-private>

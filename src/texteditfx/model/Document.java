@@ -5,10 +5,19 @@
  */
 package texteditfx.model;
 
+import texteditfx.attributes.AttributeSet;
+import texteditfx.text.Position;
+import texteditfx.text.Segment;
+
 /**
  *
  * @author jmburu
  */
-public class Document {
-    
+public interface Document {
+    public int getLength();
+    public String getText();
+    public void getText(int offset, int length, Segment segment);
+    public void insertString(int offset, String str, AttributeSet set); 
+    public void remove(int offset, int length);
+    public Position createPosition(int offset);
 }
