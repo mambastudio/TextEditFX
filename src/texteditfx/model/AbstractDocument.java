@@ -9,6 +9,6 @@ package texteditfx.model;
  *
  * @author jmburu
  */
-public class AbstractDocument {
+public abstract class AbstractDocument implements Document{
     
 }
