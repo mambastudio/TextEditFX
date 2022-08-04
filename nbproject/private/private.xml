@@ -3,15 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/user/Documents/GitHub/TextEditFX/src/texteditfx/undo/UndoableEdit.java</file>
-            <file>file:/C:/Users/user/Documents/GitHub/TextEditFX/src/texteditfx/text/Position.java</file>
-            <file>file:/C:/Users/user/Documents/GitHub/TextEditFX/src/texteditfx/model/PlainDocument.java</file>
-            <file>file:/C:/Users/user/Documents/GitHub/TextEditFX/src/texteditfx/model/AbstractDocument.java</file>
-            <file>file:/C:/Users/user/Documents/GitHub/TextEditFX/src/texteditfx/model/content/StringContent.java</file>
-            <file>file:/C:/Users/user/Documents/GitHub/TextEditFX/src/texteditfx/attributes/AttributeMap.java</file>
-            <file>file:/C:/Users/user/Documents/GitHub/TextEditFX/src/texteditfx/model/Document.java</file>
-            <file>file:/C:/Users/user/Documents/GitHub/TextEditFX/src/texteditfx/text/Segment.java</file>
-            <file>file:/C:/Users/user/Documents/GitHub/TextEditFX/src/texteditfx/model/content/Content.java</file>
+            <file>file:/C:/Users/user/Documents/GitHub/TextEditFX/test/test/Test.java</file>
+            <file>file:/C:/Users/user/Documents/GitHub/TextEditFX/src/texteditfx/view/node/NGlyphVector.java</file>
+            <file>file:/C:/Users/user/Documents/GitHub/TextEditFX/src/texteditfx/view/node/NGlyphShape.java</file>
+            <file>file:/C:/Users/user/Documents/GitHub/TextEditFX/src/texteditfx/view/node/NPlainText.java</file>
         </group>
     </open-files>
 </project-private>

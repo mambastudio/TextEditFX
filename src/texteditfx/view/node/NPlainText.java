@@ -5,10 +5,12 @@
  */
 package texteditfx.view.node;
 
+import javafx.scene.layout.Pane;
+
 /**
  *
  * @author jmburu
  */
-public class NPlainText {
+public class NPlainText extends Pane{
     
 }
