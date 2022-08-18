@@ -50,7 +50,10 @@ public class NGlyphVector {
     //Ignores line space. Metrics specific to glyph
     public NGlyphShape getGlyphOutline(int index)
     {
-        NGlyphShape shape = new NGlyphShape(ttf.getGlyph(index));        
+        if(ttf.getGlyph(index) == null)
+            return null;
+        
+        NGlyphShape shape = new NGlyphShape(ttf.getGlyph(index));          
         double fscale = size/ttf.getUnitsPerEm();
         FGlyphMetrics gmetrics = shape.getGlyph().getGlyphMetrics();
         
@@ -69,6 +72,10 @@ public class NGlyphVector {
         return shape;
     }
     
+    public int getCount()
+    {
+        return ttf.length;
+    }
     
     
     public static NGlyphVector getGlyphVector(TrueTypeFont ttf)

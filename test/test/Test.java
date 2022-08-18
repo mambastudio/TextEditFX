@@ -9,11 +9,15 @@ import texteditfx.view.node.NGlyphVector;
 import texteditfx.view.node.NGlyphShape;
 import java.nio.file.Paths;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import jfx.virtual.display.GridCell;
+import jfx.virtual.display.GridDisplay;
 
 /**
  *
@@ -31,12 +35,26 @@ public class Test extends Application{
         Scene scene = new Scene(baseDrawPanel, screenBounds.getWidth() * 0.95, screenBounds.getHeight() * 0.85);
         
         NGlyphVector vector = NGlyphVector.getGlyphVector(Paths.get("C:\\Users\\user\\Downloads\\Merriweather", "Merriweather-Regular.ttf"));
-        vector.setSize(60);
+        vector.setSize(30);
         
         NGlyphShape shape = vector.getGlyphOutline(10);
-       
+        ObservableList<NGlyphShape> shapes = FXCollections.observableArrayList();
         
-        baseDrawPanel.getChildren().addAll(shape);
+        for(int i = 0; i<vector.getCount(); i++)
+        {
+            if(vector.getGlyphOutline(i) != null);
+                shapes.add(vector.getGlyphOutline(i));
+        }
+        
+        GridDisplay<NGlyphShape> grid = new GridDisplay(); 
+        grid.setCellFactory(g->{
+            GlyphCell cell = new GlyphCell();
+            cell.update(g);
+            return cell;
+        });
+        grid.setItems(shapes);
+        
+        baseDrawPanel.getChildren().addAll(grid);
         
         
         
