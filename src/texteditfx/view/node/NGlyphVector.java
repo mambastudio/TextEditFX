@@ -11,9 +11,19 @@ import glyphreader.core.FBound;
 import glyphreader.core.metrics.FGlyphMetrics;
 import glyphreader.core.metrics.FHorizontalMetrics;
 import java.nio.file.Path;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Bounds;
+import javafx.geometry.Point2D;
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Scale;
+import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 
 /**
@@ -21,6 +31,8 @@ import javafx.scene.transform.Translate;
  * @author user
  */
 public class NGlyphVector {
+    
+    public enum BoundType{GLOBAL_BOUND, LOCAL_BOUND};
     
     private final TrueTypeFont ttf;        
     
@@ -46,38 +58,90 @@ public class NGlyphVector {
     {
         return ttf.getGlyphMetrics(index);
     }
-    
-    //Ignores line space. Metrics specific to glyph
-    public NGlyphShape getGlyphOutline(int index)
+ 
+    public NGlyphShape getGlyphShapeInGlobalBound(int index)
     {
-        if(ttf.getGlyph(index) == null)
-            return null;
+        NGlyphShape shape = new NGlyphShape(ttf.getGlyph(index));        
+        if(shape.isNull())
+            return shape;
+                      
+        shape.getTransforms().setAll(getTransformsInGlobalBound());
+                               
+        shape.setFill(paint);        
+        return shape;
+    }
+    
+    protected Bounds getGlobalBounds()
+    {
+        FBound fbounds = ttf.getBound();        
+        return new BoundingBox(fbounds.xMin, fbounds.yMin, fbounds.xMax, fbounds.yMax); 
+    }
         
-        NGlyphShape shape = new NGlyphShape(ttf.getGlyph(index));          
-        double fscale = size/ttf.getUnitsPerEm();
-        FGlyphMetrics gmetrics = shape.getGlyph().getGlyphMetrics();
-        
+    protected Scale getScaleInGlobalBound()
+    {
+        double fscale = size/ttf.getUnitsPerEm();        
         Scale scale = new Scale();
         scale.setX(fscale);
-        scale.setY(-fscale);  
-        
+        scale.setY(-fscale);         
+        return scale;
+    }
+    
+    protected Translate getTranslateInGlobalBound()
+    {
         Translate translate = new Translate();
-        translate.setX(gmetrics.leftSideBearing());
-        translate.setY(shape.getGlyph().bound.yMin - shape.getGlyph().bound.getHeight());    //local bounds
+        Bounds bounds = this.getGlobalBounds();        
+        translate.setX(-bounds.getMinX());
+        translate.setY(-ttf.getFontMetrics().getAscent()); //translates down since scale is negative in y direction
+        return translate;
+    }
+    
+    protected ObservableList<Transform> getTransformsInGlobalBound()
+    {
+        ObservableList<Transform> transforms = FXCollections.observableArrayList();
+        transforms.addAll(getScaleInGlobalBound(), getTranslateInGlobalBound());
+        return transforms;
+    }
+    
+    public Node getGlyphGlobalDisplay(int index)
+    {       double fscale = size/ttf.getUnitsPerEm();  
+        Bounds bound = getGlobalBounds();
+        Rectangle rect = new Rectangle(); 
+        rect.setX(bound.getMinX()); 
+        rect.setY(bound.getMinY());
+        rect.setWidth(bound.getWidth());
+        rect.setHeight(bound.getHeight()); 
         
-        shape.getTransforms().addAll(scale, translate);
         
-        shape.setFill(paint);
         
-        return shape;
+        NGlyphShape shape = new NGlyphShape(ttf.getGlyph(index)); 
+        if(!shape.isNull())
+        {
+            Bounds sBound = shape.getBound();
+            Point2D midB = new Point2D(bound.getMinX(), bound.getMinY()).midpoint(new Point2D(bound.getMaxX(), bound.getMaxY()));
+            Point2D midS = new Point2D(sBound.getMinX(), sBound.getMinY()).midpoint(new Point2D(sBound.getMaxX(), sBound.getMaxY()));
+            rect.getTransforms().setAll(new Scale(fscale, fscale, midB.getX(), midB.getY()), new Translate(-bound.getMinX(), bound.getHeight()));  
+        }
+        
+        
+        
+        
+        
+        
+        shape.getTransforms().setAll(getTransformsInGlobalBound());
+        
+        System.out.println(index);
+        System.out.println(new Group(shape).getBoundsInLocal());
+        System.out.println(new Group(rect).getBoundsInLocal());
+       
+        
+        return new Pane(rect, shape);
     }
     
     public int getCount()
     {
         return ttf.length;
     }
-    
-    
+        
     public static NGlyphVector getGlyphVector(TrueTypeFont ttf)
     {
         return new NGlyphVector(ttf);
@@ -88,5 +152,8 @@ public class NGlyphVector {
         return new NGlyphVector(new TrueTypeFont(path));
     }
     
-    
+    public static NGlyphVector getGlyphVector(Class<?> clazz, String fileName)
+    {
+        return new NGlyphVector(new TrueTypeFont(clazz, fileName));
+    }
 }

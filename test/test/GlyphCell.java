@@ -6,10 +6,9 @@
 package test;
 
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.layout.HBox;
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
-import jfx.virtual.CellNode;
 import jfx.virtual.display.GridCell;
 import texteditfx.view.node.NGlyphShape;
 
@@ -30,11 +29,10 @@ public class GlyphCell extends GridCell<NGlyphShape> {
     {
         setMinHeight(USE_PREF_SIZE);
         setMaxHeight(USE_PREF_SIZE);
-        setPrefHeight(32);
+        setPrefHeight(200);
+        setPrefWidth(200);
         setMaxWidth(Double.MAX_VALUE);
-        setAlignment(Pos.CENTER_LEFT);
-        setSpacing(5);
-        
+                
         
     }
     
@@ -44,7 +42,7 @@ public class GlyphCell extends GridCell<NGlyphShape> {
     }
 
     @Override
-    public void update(NGlyphShape label) {      
+    public void update(NGlyphShape label) {            
         getChildren().setAll(label);
     }   
     

@@ -6,7 +6,10 @@
 package texteditfx.view.node;
 
 import glyphreader.Glyph;
+import glyphreader.core.FBound;
 import glyphreader.core.FPoint2d;
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Bounds;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
@@ -110,4 +113,14 @@ public class NGlyphShape extends Path {
         }
     }
     
+    public Bounds getBound()
+    {        
+        FBound bound = glyph.bound.copy();
+        return new BoundingBox(bound.xMin, bound.yMin, bound.getWidth(), bound.getHeight());
+    }
+    
+    public boolean isNull()
+    {
+        return glyph == null;
+    }
 }
