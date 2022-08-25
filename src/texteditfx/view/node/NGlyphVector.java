@@ -19,6 +19,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+import static javafx.scene.layout.Region.USE_PREF_SIZE;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -71,6 +72,14 @@ public class NGlyphVector {
         return shape;
     }
     
+    public NGlyphShape getGlyphShapeScaled(int index)
+    {
+        NGlyphShape shape = new NGlyphShape(ttf.getGlyph(index));          
+        shape.getTransforms().setAll( getScaleInGlobalBound(), new Translate(-shape.lsb(), -shape.minY() - shape.height()));
+        shape.setFill(paint);        
+        return shape;
+    }
+    
     protected Bounds getGlobalBounds()
     {
         FBound fbounds = ttf.getBound();        
@@ -86,12 +95,49 @@ public class NGlyphVector {
         return scale;
     }
     
+    protected Scale getScaleInGlobalBound2()
+    {
+        double fscale = size/ttf.getUnitsPerEm();        
+        Scale scale = new Scale();
+        scale.setX(fscale);
+        scale.setY(fscale);         
+        return scale;
+    }
+    
+    protected Scale getDirectScale()
+    {
+        double fscale = size/ttf.getUnitsPerEm();        
+        Scale scale = new Scale();
+        scale.setX(fscale);
+        scale.setY(fscale);         
+        return scale;
+    }
+    
+    protected Bounds getDirectScaledBound()
+    {
+        double fscale = size/ttf.getUnitsPerEm();  
+        FBound fbounds = ttf.getBound();        
+        return new BoundingBox(0, 0, fbounds.getWidth() * fscale, fbounds.getHeight() * fscale); 
+    }
+    
+    
+    
+    
     protected Translate getTranslateInGlobalBound()
     {
         Translate translate = new Translate();
         Bounds bounds = this.getGlobalBounds();        
         translate.setX(-bounds.getMinX());
         translate.setY(-ttf.getFontMetrics().getAscent()); //translates down since scale is negative in y direction
+        return translate;
+    }
+    
+    protected Translate getTranslateInGlobalBound2()
+    {
+        Translate translate = new Translate();
+        Bounds bounds = this.getGlobalBounds();        
+        translate.setX(-bounds.getMinX());
+        translate.setY(bounds.getHeight()/2 ); 
         return translate;
     }
     
@@ -103,38 +149,31 @@ public class NGlyphVector {
     }
     
     public Node getGlyphGlobalDisplay(int index)
-    {       double fscale = size/ttf.getUnitsPerEm();  
-        Bounds bound = getGlobalBounds();
-        Rectangle rect = new Rectangle(); 
-        rect.setX(bound.getMinX()); 
-        rect.setY(bound.getMinY());
-        rect.setWidth(bound.getWidth());
-        rect.setHeight(bound.getHeight()); 
+    {       
         
-        
-        
-        NGlyphShape shape = new NGlyphShape(ttf.getGlyph(index)); 
-        if(!shape.isNull())
-        {
-            Bounds sBound = shape.getBound();
-            Point2D midB = new Point2D(bound.getMinX(), bound.getMinY()).midpoint(new Point2D(bound.getMaxX(), bound.getMaxY()));
-            Point2D midS = new Point2D(sBound.getMinX(), sBound.getMinY()).midpoint(new Point2D(sBound.getMaxX(), sBound.getMaxY()));
-            rect.getTransforms().setAll(new Scale(fscale, fscale, midB.getX(), midB.getY()), new Translate(-bound.getMinX(), bound.getHeight()));  
-        }
-        
-        
-        
-        
-        
-        
-        shape.getTransforms().setAll(getTransformsInGlobalBound());
-        
-        System.out.println(index);
-        System.out.println(new Group(shape).getBoundsInLocal());
-        System.out.println(new Group(rect).getBoundsInLocal());
+        Bounds bound = this.getDirectScaledBound();
+        Rectangle rect = new Rectangle();
        
+        Bounds b = this.getDirectScaledBound();
+        rect.setX(0);
+        rect.setY(0);
+        rect.setWidth(b.getWidth());
+        rect.setHeight(b.getHeight());     
+        rect.setFill(null);
+        rect.setStroke(Color.BLACK);
         
-        return new Pane(rect, shape);
+        
+        Pane pane = new Pane();
+        pane.setMinSize(USE_PREF_SIZE, USE_PREF_SIZE);
+        pane.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
+        pane.setPrefSize(bound.getWidth()+10, bound.getHeight()+10); System.out.println(bound);
+        
+        NGlyphShape shape = this.getGlyphShapeScaled(index);
+        
+        pane.getChildren().addAll(rect, shape);
+        
+        
+        return pane;
     }
     
     public int getCount()

@@ -119,6 +119,36 @@ public class NGlyphShape extends Path {
         return new BoundingBox(bound.xMin, bound.yMin, bound.getWidth(), bound.getHeight());
     }
     
+    public double lsb()
+    {
+        return glyph.getGlyphMetrics().leftSideBearing();
+    }
+    
+    public double advanceWidth()
+    {
+        return glyph.getGlyphMetrics().advanceWidth();
+    }
+    
+    public double minX()
+    {
+        return getBound().getMinX();
+    }
+    
+    public double minY()
+    {
+        return getBound().getMinY();
+    }
+    
+    public double width()
+    {
+        return getBound().getWidth();
+    }
+    
+    public double height()
+    {
+        return getBound().getHeight();
+    }
+    
     public boolean isNull()
     {
         return glyph == null;
