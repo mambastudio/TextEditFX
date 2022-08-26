@@ -3,10 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/user/Documents/GitHub/TextEditFX/test/test/TestFont.java</file>
-            <file>file:/C:/Users/user/Documents/GitHub/TextEditFX/test/test/Test.java</file>
-            <file>file:/C:/Users/user/Documents/GitHub/TextEditFX/src/texteditfx/view/node/NGlyphVector.java</file>
-            <file>file:/C:/Users/user/Documents/GitHub/TextEditFX/src/texteditfx/view/node/NGlyphShape.java</file>
+            <file>file:/C:/Users/jmburu/Documents/GitHub/TextEditFX/test/test/GlyphCell.java</file>
+            <file>file:/C:/Users/jmburu/Documents/GitHub/TextEditFX/src/texteditfx/view/node/NGlyphVector.java</file>
+            <file>file:/C:/Users/jmburu/Documents/GitHub/TextEditFX/src/texteditfx/view/node/NTextLayout.java</file>
+            <file>file:/C:/Users/jmburu/Documents/GitHub/TextEditFX/src/texteditfx/view/node/NPlainText.java</file>
+            <file>file:/C:/Users/jmburu/Documents/GitHub/TextEditFX/src/texteditfx/view/node/NText.java</file>
+            <file>file:/C:/Users/jmburu/Documents/GitHub/TextEditFX/src/texteditfx/view/node/NGlyphShape.java</file>
+            <file>file:/C:/Users/jmburu/Documents/GitHub/TextEditFX/test/test/Test.java</file>
+            <file>file:/C:/Users/jmburu/Documents/GitHub/TextEditFX/test/test/TestFont.java</file>
         </group>
     </open-files>
 </project-private>

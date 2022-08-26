@@ -50,7 +50,7 @@ public class Test extends Application{
             if(!shape.isNull())
                 shapes.add(shape);
             
-            //vector.getGlyphGlobalDisplay(i);
+            //vector.getGlyphDisplayAt(i);
         }
         
         GridDisplay<NGlyphShape> grid = new GridDisplay(); 

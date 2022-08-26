@@ -72,18 +72,32 @@ public class NGlyphVector {
         return shape;
     }
     
-    public NGlyphShape getGlyphShapeScaled(int index)
+    /**
+     * Shape is located in the left most part of the global bound for all glyphs.
+     * The y coordinates are based on the description of the font hence base line for this font is the common base line for all glyphs.
+     *  
+     * new Translate(-shape.lsb(), -shape.minY() - getGlobalBounds().getHeight() + marginY);
+     * 
+     * @param index
+     * @return 
+     */
+    public NGlyphShape getGlyphShape(int index)
     {
-        NGlyphShape shape = new NGlyphShape(ttf.getGlyph(index));          
-        shape.getTransforms().setAll( getScaleInGlobalBound(), new Translate(-shape.lsb(), -shape.minY() - shape.height()));
+        //glyph shape path/outline
+        NGlyphShape shape = new NGlyphShape(ttf.getGlyph(index)); 
+        //margine is space from top global bound to top glyph bound
+        double marginY = shape.minY() - ttf.getBound().yMin;    
+        //translate to left of bound (x = 0) and then height relative to baseline 
+        shape.getTransforms().setAll( getScaleInGlobalBound(), new Translate(-shape.lsb(), -shape.minY() - getGlobalBounds().getHeight() + marginY));
+        //specific paint/color
         shape.setFill(paint);        
         return shape;
     }
     
     protected Bounds getGlobalBounds()
     {
-        FBound fbounds = ttf.getBound();        
-        return new BoundingBox(fbounds.xMin, fbounds.yMin, fbounds.xMax, fbounds.yMax); 
+        FBound fbounds = ttf.getBound();           
+        return new BoundingBox(fbounds.xMin, fbounds.yMin, fbounds.xMax - fbounds.xMin, fbounds.yMax - fbounds.yMin); 
     }
         
     protected Scale getScaleInGlobalBound()
@@ -148,17 +162,26 @@ public class NGlyphVector {
         return transforms;
     }
     
-    public Node getGlyphGlobalDisplay(int index)
+    public Node getGlyphDisplayAt(int index)
     {       
+        Bounds bound = this.getGlobalBounds();
+        Bounds scaledBound = this.getDirectScaledBound();
         
-        Bounds bound = this.getDirectScaledBound();
-        Rectangle rect = new Rectangle();
-       
-        Bounds b = this.getDirectScaledBound();
+        Rectangle rec = new Rectangle();             
+        rec.setX(bound.getMinX());
+        rec.setY(bound.getMinY());
+        rec.setWidth(bound.getWidth());
+        rec.setHeight(bound.getHeight());   
+        rec.getTransforms().setAll(this.getScaleInGlobalBound());
+        
+        System.out.println(scaledBound);
+        System.out.println(rec.getBoundsInParent());
+        
+        Rectangle rect = new Rectangle();             
         rect.setX(0);
         rect.setY(0);
-        rect.setWidth(b.getWidth());
-        rect.setHeight(b.getHeight());     
+        rect.setWidth(scaledBound.getWidth());
+        rect.setHeight(scaledBound.getHeight());     
         rect.setFill(null);
         rect.setStroke(Color.BLACK);
         
@@ -166,10 +189,10 @@ public class NGlyphVector {
         Pane pane = new Pane();
         pane.setMinSize(USE_PREF_SIZE, USE_PREF_SIZE);
         pane.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
-        pane.setPrefSize(bound.getWidth()+10, bound.getHeight()+10); System.out.println(bound);
+        pane.setPrefSize(scaledBound.getWidth()+10, scaledBound.getHeight()+10); 
         
-        NGlyphShape shape = this.getGlyphShapeScaled(index);
-        
+        NGlyphShape shape = this.getGlyphShape(index);       
+        shape.getTransforms().addAll(new Translate(ttf.getBound().getWidth()/2 - shape.width()/2, 0));         
         pane.getChildren().addAll(rect, shape);
         
         
