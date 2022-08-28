@@ -7,19 +7,15 @@ package test;
 
 import glyphreader.fonts.notoserif.Resource;
 import texteditfx.view.node.NGlyphVector;
-import texteditfx.view.node.NGlyphShape;
-import java.nio.file.Paths;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import jfx.virtual.display.GridCell;
 import jfx.virtual.display.GridDisplay;
 
 /**
@@ -38,22 +34,19 @@ public class Test extends Application{
         Scene scene = new Scene(baseDrawPanel, screenBounds.getWidth() * 0.95, screenBounds.getHeight() * 0.85);
         
         NGlyphVector vector = NGlyphVector.getGlyphVector(Resource.class, "NotoSerif-Regular.ttf");
-        vector.setSize(100);
+        vector.setSize(30);
         
         
-        ObservableList<NGlyphShape> shapes = FXCollections.observableArrayList();
+        ObservableList<Node> shapes = FXCollections.observableArrayList();
         
         for(int i = 0; i<vector.getCount(); i++)
         { 
-            NGlyphShape shape = vector.getGlyphShapeInGlobalBound(i);
-           // System.out.println(shape.getBoundsInParent());
-            if(!shape.isNull())
-                shapes.add(shape);
-            
-            //vector.getGlyphDisplayAt(i);
+            Node shape = vector.getGlyphDisplayAt(i);           
+            shapes.add(shape);            
         }
         
-        GridDisplay<NGlyphShape> grid = new GridDisplay(); 
+        GridDisplay<Node> grid = new GridDisplay(); 
+        //override default grid cell
         grid.setCellFactory(g->{
             GlyphCell cell = new GlyphCell();            
             cell.update(g);

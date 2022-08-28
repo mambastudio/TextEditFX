@@ -9,14 +9,11 @@ import texteditfx.view.node.NGlyphShape;
 import glyphreader.TrueTypeFont;
 import glyphreader.core.FBound;
 import glyphreader.core.metrics.FGlyphMetrics;
-import glyphreader.core.metrics.FHorizontalMetrics;
 import java.nio.file.Path;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
-import javafx.geometry.Point2D;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
@@ -85,7 +82,9 @@ public class NGlyphVector {
     {
         //glyph shape path/outline
         NGlyphShape shape = new NGlyphShape(ttf.getGlyph(index)); 
-        //margine is space from top global bound to top glyph bound
+        if(shape.isNull())
+            return shape;
+        //margin is space from top global bound to top glyph bound
         double marginY = shape.minY() - ttf.getBound().yMin;    
         //translate to left of bound (x = 0) and then height relative to baseline 
         shape.getTransforms().setAll( getScaleInGlobalBound(), new Translate(-shape.lsb(), -shape.minY() - getGlobalBounds().getHeight() + marginY));
@@ -174,8 +173,6 @@ public class NGlyphVector {
         rec.setHeight(bound.getHeight());   
         rec.getTransforms().setAll(this.getScaleInGlobalBound());
         
-        System.out.println(scaledBound);
-        System.out.println(rec.getBoundsInParent());
         
         Rectangle rect = new Rectangle();             
         rect.setX(0);
@@ -191,11 +188,12 @@ public class NGlyphVector {
         pane.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
         pane.setPrefSize(scaledBound.getWidth()+10, scaledBound.getHeight()+10); 
         
-        NGlyphShape shape = this.getGlyphShape(index);       
-        shape.getTransforms().addAll(new Translate(ttf.getBound().getWidth()/2 - shape.width()/2, 0));         
+        NGlyphShape shape = this.getGlyphShape(index);     
+        if(!shape.isNull())
+            shape.getTransforms().addAll(new Translate(ttf.getBound().getWidth()/2 - shape.width()/2, 0));         
         pane.getChildren().addAll(rect, shape);
         
-        
+       
         return pane;
     }
     

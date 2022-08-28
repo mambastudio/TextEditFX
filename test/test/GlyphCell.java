@@ -5,36 +5,16 @@
  */
 package test;
 
-import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
-import static javafx.scene.layout.Region.USE_PREF_SIZE;
 import jfx.virtual.display.GridCell;
-import texteditfx.view.node.NGlyphShape;
 
 /**
  *
  * @author user
  */
-public class GlyphCell extends GridCell<NGlyphShape> {
+public class GlyphCell extends GridCell<Node> {
     
     private int index = -1;
-    
-    public GlyphCell()
-    {
-        
-        init();
-    }
-    private void init()
-    {
-        setMinHeight(USE_PREF_SIZE);
-        setMaxHeight(USE_PREF_SIZE);
-        setPrefHeight(200);
-        setPrefWidth(200);
-        setMaxWidth(Double.MAX_VALUE);
-                
-        
-    }
     
     @Override
     public Node getNode() {
@@ -42,7 +22,7 @@ public class GlyphCell extends GridCell<NGlyphShape> {
     }
 
     @Override
-    public void update(NGlyphShape label) {            
+    public void update(Node label) {            
         getChildren().setAll(label);
     }   
     
