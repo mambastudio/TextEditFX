@@ -22,8 +22,11 @@ public class GlyphCell extends GridCell<Node> {
     }
 
     @Override
-    public void update(Node label) {            
-        getChildren().setAll(label);
+    public void update(Node label) {  
+        if(label != null)
+            getChildren().setAll(label);
+        else
+            getChildren().removeAll(getChildren());
     }   
     
     @Override
