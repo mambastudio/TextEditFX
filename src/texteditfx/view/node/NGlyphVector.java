@@ -89,7 +89,7 @@ public class NGlyphVector {
         //translate to left of bound (x = 0) and then height relative to baseline 
         shape.getTransforms().setAll( getScaleInGlobalBound(), new Translate(-shape.lsb(), -shape.minY() - getGlobalBounds().getHeight() + marginY));
         //specific paint/color
-        shape.setFill(paint);        
+        shape.setFill(paint);       
         return shape;
     }
     

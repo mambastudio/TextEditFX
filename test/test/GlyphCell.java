@@ -5,6 +5,7 @@
  */
 package test;
 
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -18,20 +19,27 @@ import texteditfx.view.node.NGlyphShape;
 public class GlyphCell extends GridCell<NGlyphShape> {
     
     private int index = -1;
-    private NGlyphShape shapeGlyph = null;
-    
+    private final NGlyphShape shapeGlyph;
+    Group group;
+    Rectangle rect = new Rectangle();             
     public GlyphCell()
     {
-        Rectangle rect = new Rectangle();             
+        
         rect.setX(0);
         rect.setY(0);
-        rect.setWidth(90);
-        rect.setHeight(90);     
+        rect.setWidth(50);
+        rect.setHeight(50);     
         rect.setFill(null);
+        rect.setStrokeWidth(0.0009);
         rect.setStroke(Color.BLACK);
         
         shapeGlyph = new NGlyphShape(null);
-        getChildren().addAll(rect, shapeGlyph);
+        
+        group = new Group(rect, shapeGlyph);
+     
+        getChildren().setAll(group);
+        
+        this.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
     }
     
     @Override
@@ -40,11 +48,16 @@ public class GlyphCell extends GridCell<NGlyphShape> {
     }
 
     @Override
-    public void update(Node label) {  
-        if(label != null)
-            getChildren().setAll(label);
-        else
-            getChildren().removeAll(getChildren());
+    public void update(NGlyphShape glyph) {          
+        if(glyph != null)
+        {
+            group.getChildren().setAll(rect, glyph);
+            
+            //this.setPrefSize(50, 50);
+        }
+        else 
+            group.getChildren().clear();
+       
     }   
     
     @Override

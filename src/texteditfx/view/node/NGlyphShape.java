@@ -36,11 +36,6 @@ public class NGlyphShape extends Path {
             this.getElements().removeAll(getElements());
     }
     
-    public Glyph getGlyph()
-    {
-        return glyph;
-    }
-    
     private void initPath()
     {
         this.getElements().removeAll(getElements());
