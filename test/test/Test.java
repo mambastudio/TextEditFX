@@ -34,7 +34,7 @@ public class Test extends Application{
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();        
         Scene scene = new Scene(baseDrawPanel, screenBounds.getWidth() * 0.95, screenBounds.getHeight() * 0.85);
         
-        NGlyphVector vector = NGlyphVector.getGlyphVector(Resource.class, "Phosphor.ttf");
+        NGlyphVector vector = NGlyphVector.getGlyphVector(Resource.class, "MaterialSymbolsOutlined.ttf");
         vector.setSize(30);
         
         

@@ -40,9 +40,11 @@ public class GlyphCell extends GridCell<NGlyphShape> {
     }
 
     @Override
-    public void update(NGlyphShape shapeGlyph) {            
-        this.shapeGlyph.setGlyph(shapeGlyph.getGlyph());
-        this.shapeGlyph.getTransforms().setAll(shapeGlyph.getTransforms());
+    public void update(Node label) {  
+        if(label != null)
+            getChildren().setAll(label);
+        else
+            getChildren().removeAll(getChildren());
     }   
     
     @Override
