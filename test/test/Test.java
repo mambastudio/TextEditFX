@@ -17,6 +17,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import jfx.virtual.display.GridDisplay;
+import texteditfx.view.node.NGlyphShape;
 
 /**
  *
@@ -33,19 +34,19 @@ public class Test extends Application{
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();        
         Scene scene = new Scene(baseDrawPanel, screenBounds.getWidth() * 0.95, screenBounds.getHeight() * 0.85);
         
-        NGlyphVector vector = NGlyphVector.getGlyphVector(Resource.class, "NotoSerif-Regular.ttf");
+        NGlyphVector vector = NGlyphVector.getGlyphVector(Resource.class, "Phosphor.ttf");
         vector.setSize(30);
         
         
-        ObservableList<Node> shapes = FXCollections.observableArrayList();
+        ObservableList<NGlyphShape> shapes = FXCollections.observableArrayList();
         
         for(int i = 0; i<vector.getCount(); i++)
         { 
-            Node shape = vector.getGlyphDisplayAt(i);           
+            NGlyphShape shape = vector.getGlyphShapeCentered(i);
             shapes.add(shape);            
         }
         
-        GridDisplay<Node> grid = new GridDisplay(); 
+        GridDisplay<NGlyphShape> grid = new GridDisplay(); 
         //override default grid cell
         grid.setCellFactory(g->{
             GlyphCell cell = new GlyphCell();            

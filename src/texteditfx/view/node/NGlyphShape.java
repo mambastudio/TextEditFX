@@ -20,12 +20,20 @@ import javafx.scene.shape.QuadCurveTo;
  * @author user
  */
 public class NGlyphShape extends Path {
-    private final Glyph glyph;
+    private Glyph glyph;
     
     public NGlyphShape(Glyph glyph)
     {
+        setGlyph(glyph);
+    }
+    
+    public final void setGlyph(Glyph glyph)
+    {
         this.glyph = glyph;
-        this.initPath();
+        if(glyph != null)
+            this.initPath();
+        else
+            this.getElements().removeAll(getElements());
     }
     
     public Glyph getGlyph()
@@ -35,6 +43,8 @@ public class NGlyphShape extends Path {
     
     private void initPath()
     {
+        this.getElements().removeAll(getElements());
+        
         if ( glyph == null) {
             return;
         }

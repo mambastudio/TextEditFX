@@ -93,6 +93,15 @@ public class NGlyphVector {
         return shape;
     }
     
+    public NGlyphShape getGlyphShapeCentered(int index)
+    {
+        NGlyphShape shape = this.getGlyphShape(index);     
+        if(!shape.isNull())
+            shape.getTransforms().addAll(new Translate(ttf.getBound().getWidth()/2 - shape.width()/2, 0)); 
+        
+        return shape;
+    }
+    
     protected Bounds getGlobalBounds()
     {
         FBound fbounds = ttf.getBound();           
