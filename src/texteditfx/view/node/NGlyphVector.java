@@ -5,7 +5,6 @@
  */
 package texteditfx.view.node;
 
-import texteditfx.view.node.NGlyphShape;
 import glyphreader.TrueTypeFont;
 import glyphreader.core.FBound;
 import glyphreader.core.metrics.FGlyphMetrics;
@@ -98,8 +97,14 @@ public class NGlyphVector {
         NGlyphShape shape = this.getGlyphShape(index);     
         if(!shape.isNull())
             shape.getTransforms().addAll(new Translate(ttf.getBound().getWidth()/2 - shape.width()/2, 0)); 
-        
+        shape.setBoundRectangle(getFontBoundRectangle());
         return shape;
+    }
+    
+    public Rectangle getFontBoundRectangle()
+    {
+        Bounds bound = getDirectScaledBound();
+        return new Rectangle(bound.getWidth(), bound.getHeight());
     }
     
     protected Bounds getGlobalBounds()
@@ -150,7 +155,7 @@ public class NGlyphVector {
         Translate translate = new Translate();
         Bounds bounds = this.getGlobalBounds();        
         translate.setX(-bounds.getMinX());
-        translate.setY(-ttf.getFontMetrics().getAscent()); //translates down since scale is negative in y direction
+        translate.setY(-ttf.getFontHorizontalMetrics().getAscent()); //translates down since scale is negative in y direction
         return translate;
     }
     

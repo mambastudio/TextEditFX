@@ -14,6 +14,7 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.QuadCurveTo;
+import javafx.scene.shape.Rectangle;
 
 /**
  *
@@ -21,6 +22,7 @@ import javafx.scene.shape.QuadCurveTo;
  */
 public class NGlyphShape extends Path {
     private Glyph glyph;
+    private Rectangle globalBound;
     
     public NGlyphShape(Glyph glyph)
     {
@@ -118,9 +120,19 @@ public class NGlyphShape extends Path {
         }
     }
     
+    public void setBoundRectangle(Rectangle bound)
+    {
+        this.globalBound = bound;
+    }
+    
+    public Rectangle getBoundRectangle()
+    {
+        return globalBound;
+    }
+    
     public Bounds getBound()
     {        
-        FBound bound = glyph.bound.copy();
+        FBound bound = glyph.glyphBound.copy();
         return new BoundingBox(bound.xMin, bound.yMin, bound.getWidth(), bound.getHeight());
     }
     
