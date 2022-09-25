@@ -31,7 +31,8 @@ public class TestFont extends Application{
         NGlyphVector vector = NGlyphVector.getGlyphVector(Resource.class, "NotoSerif-Regular.ttf");
         vector.setSize(400);
         
-        baseDrawPanel.getChildren().add(vector.getGlyphDisplayAt(159));
+        //baseDrawPanel.getChildren().add(vector.getGlyphDisplayAt(159));
+        baseDrawPanel.getChildren().add(vector.getGlyphOutline(159).getAllOutlineCentered());
         
         primaryStage.setScene(scene);
        // primaryStage.setMaximized(true);

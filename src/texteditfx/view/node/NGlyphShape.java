@@ -5,7 +5,7 @@
  */
 package texteditfx.view.node;
 
-import glyphreader.Glyph;
+import glyphreader.glyf.Glyph;
 import glyphreader.core.FBound;
 import glyphreader.core.FPoint2d;
 import javafx.geometry.BoundingBox;

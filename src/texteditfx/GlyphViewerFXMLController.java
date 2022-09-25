@@ -5,6 +5,7 @@
  */
 package texteditfx;
 
+import glyphreader.FontType;
 import glyphreader.fonts.notoserif.Resource;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,12 +15,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.ListView;
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import jfx.virtual.display.GridCell;
 import jfx.virtual.display.GridDisplay;
+import texteditfx.view.node.GlyphOutline;
 import texteditfx.view.node.NGlyphShape;
 import texteditfx.view.node.NGlyphVector;
 
@@ -31,6 +34,10 @@ import texteditfx.view.node.NGlyphVector;
 public class GlyphViewerFXMLController implements Initializable {
     @FXML
     StackPane basePane;
+    @FXML
+    ListView<FontType> systemFontList;
+    
+    GridDisplay<GlyphOutline> grid;
 
     /**
      * Initializes the controller class.
@@ -39,63 +46,61 @@ public class GlyphViewerFXMLController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        
-        NGlyphVector vector = NGlyphVector.getGlyphVector(Resource.class, "NotoSerif-Regular.ttf");
-        vector.setSize(30);
-        
-        
-        ObservableList<NGlyphShape> shapes = FXCollections.observableArrayList();
-        
-        for(int i = 0; i<vector.getCount(); i++)
-        { 
-            NGlyphShape shape = vector.getGlyphShapeCentered(i);
-            shapes.add(shape);            
-        }
-        
-        GridDisplay<NGlyphShape> grid = new GridDisplay(); 
+        // TODO        
+        grid = new GridDisplay(); 
         //override default grid cell
         grid.setCellFactory(g->{
             GlyphCell cell = new GlyphCell();            
             cell.update(g);
             return cell;
-        });
-        grid.setItems(shapes);
-        
+        });        
         basePane.getChildren().addAll(grid);
+        
+        NGlyphVector vector = NGlyphVector.getGlyphVector(Resource.class, "NotoSerif-Regular.ttf");
+        vector.setSize(30);
+        initGlyphs(vector);
+        
+        systemFontList.getItems().addAll(FontType.getAllFonts(30));
+        systemFontList.getSelectionModel().selectedItemProperty().addListener((o, ov, nv)->{
+            if(nv != null)
+            {
+                NGlyphVector newGlyphVector = NGlyphVector.getGlyphVector(nv.getTTFInfo());
+                newGlyphVector.setSize(30);
+                initGlyphs(newGlyphVector);
+            }
+        });
     }    
     
-    public class GlyphCell extends GridCell<NGlyphShape> {    
-        private int index = -1;
-        private final NGlyphShape shapeGlyph;
+    protected void initGlyphs(NGlyphVector glyphVector)
+    {
+        ObservableList<GlyphOutline> shapes = FXCollections.observableArrayList();
+        
+        for(int i = 0; i<glyphVector.getCount(); i++)
+        { 
+            GlyphOutline shape = glyphVector.getGlyphOutline(i);
+            shapes.add(shape);            
+        }
+        
+        grid.setItems(shapes);
+    }
+    
+    public class GlyphCell extends GridCell<GlyphOutline> {    
+        private int index = -1;        
         Group group;
-        Rectangle rect = new Rectangle();    
         
         public GlyphCell()
         {
-
-            rect.setX(0);
-            rect.setY(0);
-            rect.setWidth(50);
-            rect.setHeight(50);     
-            rect.setFill(null);
-            rect.setStrokeWidth(0.0009);
-            rect.setStroke(Color.BLACK);
-
-            shapeGlyph = new NGlyphShape(null);
-
-            group = new Group(rect, shapeGlyph);
-
+            group = new Group();
             getChildren().setAll(group);
 
             this.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
             
-            this.setOnMouseEntered(e->{
-                rect.setFill(new Color(0.5, 0.5, 0.5, 0.5));
-            });
-            this.setOnMouseExited(e->{
-                rect.setFill(null);
-            });
+            //this.setOnMouseEntered(e->{
+            //    rect.setFill(new Color(0.5, 0.5, 0.5, 0.5));
+            //});
+            //this.setOnMouseExited(e->{
+            //    rect.setFill(null);
+            //});
         }
 
         @Override
@@ -104,10 +109,10 @@ public class GlyphViewerFXMLController implements Initializable {
         }
 
         @Override
-        public void update(NGlyphShape glyph) {          
+        public void update(GlyphOutline glyph) {          
             if(glyph != null)
             {
-                group.getChildren().setAll(rect, glyph);
+                group.getChildren().setAll(glyph.getAllOutlineCentered());
             }
             else 
                 group.getChildren().clear();

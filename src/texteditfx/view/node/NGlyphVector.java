@@ -6,6 +6,7 @@
 package texteditfx.view.node;
 
 import glyphreader.TrueTypeFont;
+import glyphreader.TrueTypeFontInfo;
 import glyphreader.core.FBound;
 import glyphreader.core.metrics.FGlyphMetrics;
 import java.nio.file.Path;
@@ -90,6 +91,11 @@ public class NGlyphVector {
         //specific paint/color
         shape.setFill(paint);       
         return shape;
+    }
+    
+    public GlyphOutline getGlyphOutline(int index)
+    {
+        return new GlyphOutline(ttf.getGlyph(index), size);
     }
     
     public NGlyphShape getGlyphShapeCentered(int index)
@@ -214,6 +220,11 @@ public class NGlyphVector {
     public int getCount()
     {
         return ttf.length;
+    }
+    
+    public static NGlyphVector getGlyphVector(TrueTypeFontInfo ttf)
+    {
+        return getGlyphVector(ttf.getFontTTF());
     }
         
     public static NGlyphVector getGlyphVector(TrueTypeFont ttf)
