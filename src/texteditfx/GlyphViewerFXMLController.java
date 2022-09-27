@@ -60,7 +60,7 @@ public class GlyphViewerFXMLController implements Initializable {
         vector.setSize(30);
         initGlyphs(vector);
         
-        systemFontList.getItems().addAll(FontType.getAllFonts(30));
+        systemFontList.getItems().addAll(FontType.getAllSystemFonts(30));
         systemFontList.getSelectionModel().selectedItemProperty().addListener((o, ov, nv)->{
             if(nv != null)
             {
