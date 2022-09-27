@@ -5,7 +5,9 @@
  */
 package test;
 
+import glyphreader.FontType;
 import glyphreader.fonts.notoserif.Resource;
+import glyphreader.jfx.GlyphNode;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -28,11 +30,14 @@ public class TestFont extends Application{
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();        
         Scene scene = new Scene(baseDrawPanel, screenBounds.getWidth() * 0.95, screenBounds.getHeight() * 0.85);
         
+        FontType font = FontType.font(Resource.class, "FontAwesome.ttf", 400);
+        GlyphNode node = new GlyphNode(font, "W");
+        
         NGlyphVector vector = NGlyphVector.getGlyphVector(Resource.class, "NotoSerif-Regular.ttf");
         vector.setSize(400);
         
         //baseDrawPanel.getChildren().add(vector.getGlyphDisplayAt(159));
-        baseDrawPanel.getChildren().add(vector.getGlyphOutline(159).getAllOutlineCentered());
+        baseDrawPanel.getChildren().add(node);
         
         primaryStage.setScene(scene);
        // primaryStage.setMaximized(true);
