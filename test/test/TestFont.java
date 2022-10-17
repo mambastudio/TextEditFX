@@ -14,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import texteditfx.view.node.NGlyphVector;
 
 /**
  *
@@ -32,11 +31,7 @@ public class TestFont extends Application{
         
         FontType font = FontType.font(Resource.class, "FontAwesome.ttf", 400);
         GlyphNode node = new GlyphNode(font, "W");
-        
-        NGlyphVector vector = NGlyphVector.getGlyphVector(Resource.class, "NotoSerif-Regular.ttf");
-        vector.setSize(400);
-        
-        //baseDrawPanel.getChildren().add(vector.getGlyphDisplayAt(159));
+      
         baseDrawPanel.getChildren().add(node);
         
         primaryStage.setScene(scene);
