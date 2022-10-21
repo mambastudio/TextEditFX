@@ -95,12 +95,12 @@ public class GlyphViewerFXMLController implements Initializable {
 
             this.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
             
-            //this.setOnMouseEntered(e->{
-            //    rect.setFill(new Color(0.5, 0.5, 0.5, 0.5));
-            //});
-            //this.setOnMouseExited(e->{
-            //    rect.setFill(null);
-            //});
+            this.setOnMouseEntered(e->{
+                rect.setFill(new Color(0.5, 0.5, 0.5, 0.5));
+            });
+            this.setOnMouseExited(e->{
+                rect.setFill(null);
+            });
         }
 
         @Override

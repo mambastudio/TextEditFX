@@ -30,8 +30,8 @@ public class TestFont extends Application{
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();        
         Scene scene = new Scene(baseDrawPanel, screenBounds.getWidth() * 0.95, screenBounds.getHeight() * 0.85);
         
-        FontType font = FontType.font(Resource.class, "FontAwesome.ttf", 400);
-        GlyphNode node = new GlyphNode(font, "W");
+        FontType font = FontType.font(Resource.class, "Phosphor.ttf", 30);
+        GlyphNode node = new GlyphNode(font, "magic-wand");
         
         NGlyphVector vector = NGlyphVector.getGlyphVector(Resource.class, "NotoSerif-Regular.ttf");
         vector.setSize(400);
