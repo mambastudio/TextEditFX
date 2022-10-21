@@ -14,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import texteditfx.view.node.NGlyphVector;
 
 /**
  *
@@ -30,13 +29,9 @@ public class TestFont extends Application{
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();        
         Scene scene = new Scene(baseDrawPanel, screenBounds.getWidth() * 0.95, screenBounds.getHeight() * 0.85);
         
-        FontType font = FontType.font(Resource.class, "Phosphor.ttf", 30);
-        GlyphNode node = new GlyphNode(font, "magic-wand");
-        
-        NGlyphVector vector = NGlyphVector.getGlyphVector(Resource.class, "NotoSerif-Regular.ttf");
-        vector.setSize(400);
-        
-        //baseDrawPanel.getChildren().add(vector.getGlyphDisplayAt(159));
+        FontType font = FontType.font(Resource.class, "FontAwesome.ttf", 400);
+        GlyphNode node = new GlyphNode(font, "W");
+      
         baseDrawPanel.getChildren().add(node);
         
         primaryStage.setScene(scene);
