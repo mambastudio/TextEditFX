@@ -23,7 +23,6 @@ import javafx.scene.shape.Rectangle;
 import jfx.virtual.display.GridCell;
 import jfx.virtual.display.GridDisplay;
 import texteditfx.view.node.GlyphOutline;
-import texteditfx.view.node.NGlyphShape;
 import texteditfx.view.node.NGlyphVector;
 
 /**
@@ -57,15 +56,15 @@ public class GlyphViewerFXMLController implements Initializable {
         basePane.getChildren().addAll(grid);
         
         NGlyphVector vector = NGlyphVector.getGlyphVector(Resource.class, "NotoSerif-Regular.ttf");
-        vector.setSize(30);
+        vector.setSize(70);
         initGlyphs(vector);
         
-        systemFontList.getItems().addAll(FontType.getAllSystemFonts(30));
+        systemFontList.getItems().addAll(FontType.getAllSystemFonts(70));
         systemFontList.getSelectionModel().selectedItemProperty().addListener((o, ov, nv)->{
             if(nv != null)
             {
                 NGlyphVector newGlyphVector = NGlyphVector.getGlyphVector(nv.getTTFInfo());
-                newGlyphVector.setSize(30);
+                newGlyphVector.setSize(70);
                 initGlyphs(newGlyphVector);
             }
         });
@@ -87,20 +86,35 @@ public class GlyphViewerFXMLController implements Initializable {
     public class GlyphCell extends GridCell<GlyphOutline> {    
         private int index = -1;        
         Group group;
+        Rectangle rect;
         
         public GlyphCell()
         {
             group = new Group();
-            getChildren().setAll(group);
+            
 
             this.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
             
-            //this.setOnMouseEntered(e->{
-            //    rect.setFill(new Color(0.5, 0.5, 0.5, 0.5));
-            //});
-            //this.setOnMouseExited(e->{
-            //    rect.setFill(null);
-            //});
+            rect = new Rectangle();
+            rect.setFill(null);
+            
+            getChildren().setAll(rect, group);
+            
+            this.widthProperty().addListener((o, ov, nv)->{
+                rect.setWidth(nv.doubleValue());
+            });
+            
+            this.heightProperty().addListener((o, ov, nv)->{
+                rect.setHeight(nv.doubleValue());
+            });
+            
+            this.setOnMouseEntered(e->{
+                rect.setFill(new Color(0.5, 0.5, 0.5, 0.5));
+                
+            });
+            this.setOnMouseExited(e->{
+                rect.setFill(null);
+            });
         }
 
         @Override
